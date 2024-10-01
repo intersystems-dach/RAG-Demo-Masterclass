@@ -1,0 +1,7 @@
+{
+    "objectscript.conn": {
+        "server": "iris-localhost-8080",
+        "ns": "RAG",
+        "active": true
+    }
+}

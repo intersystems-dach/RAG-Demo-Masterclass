@@ -1,0 +1,39 @@
+services:
+  iris:
+    build:
+      context: ./src-iris
+      args:
+        IRIS_IMAGE: "${IRIS_IMAGE}"
+        IRIS_TAG: "${IRIS_IMAGE_TAG}"
+      secrets:
+        - iris_pw
+    volumes:
+    - ./volumes/iris:/iris-shared
+    command:
+    - "${LICENSE_KEY_FILE:+--key /iris-shared/${LICENSE_KEY_FILE}}"
+
+  webgateway:
+    image: ${WG_IMAGE}:${WG_IMAGE_TAG}
+    secrets:
+      - iris_pw
+    ports:
+    - "${WEBSERVER_PORT}:80"
+    environment:
+    - ISC_CSP_CONF_FILE=/webgateway-shared/CSP.conf
+    - ISC_CSP_INI_FILE=/webgateway-shared/CSP.ini
+    volumes:
+    - ./volumes/webgateway:/webgateway-shared
+    
+  streamlit:
+    build:
+      context: ./src-streamlit
+    secrets:
+      - iris_pw
+    ports:
+    - "${STREAMLIT_PORT}:8501"
+    links:
+      - iris
+
+secrets:
+  iris_pw:
+    file: "./src-iris/irispw.txt"
