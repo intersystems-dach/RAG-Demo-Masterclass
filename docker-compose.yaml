@@ -9,8 +9,8 @@ services:
         - iris_pw
     volumes:
     - ./volumes/iris:/iris-shared
-    command:
-    - "${LICENSE_KEY_FILE:+--key /iris-shared/${LICENSE_KEY_FILE}}"
+    # command:
+    # - "${LICENSE_KEY_FILE:+--key /iris-shared/${LICENSE_KEY_FILE}}"
 
   webgateway:
     image: ${WG_IMAGE}:${WG_IMAGE_TAG}
